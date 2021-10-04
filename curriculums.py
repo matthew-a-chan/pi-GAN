@@ -86,7 +86,6 @@ CelebA = {
     0: {'batch_size': 28 * 2, 'num_steps': 12, 'img_size': 64, 'batch_split': 2, 'gen_lr': 6e-5, 'disc_lr': 2e-4},
     int(200e3): {},
 
-    'dataset_path': '/home/ericryanchan/data/celeba/img_align_celeba/*.jpg',
     'fov': 12,
     'ray_start': 0.88,
     'ray_end': 1.12,
@@ -123,7 +122,6 @@ CARLA = {
     int(55e3): {'batch_size': 10, 'num_steps': 48, 'img_size': 128, 'batch_split': 5, 'gen_lr': 10e-6, 'disc_lr': 10e-5},
     int(200e3): {},
 
-    'dataset_path': '/home/marcorm/S-GAN/data/cats_bigger_than_128x128/*.jpg',
     'fov': 30,
     'ray_start': 0.7,
     'ray_end': 1.3,
@@ -161,7 +159,6 @@ CATS = {
     int(200e3): {},
 
 
-    'dataset_path': '/home/ericryanchan/graf-beta/data/carla/carla/*.png',
     'fov': 12,
     'ray_start': 0.8,
     'ray_end': 1.2,
@@ -188,6 +185,91 @@ CATS = {
     'hierarchical_sample': True,
     'z_lambda': 0,
     'pos_lambda': 0,
+    'last_back': False,
+    'eval_last_back': True,
+}
+
+
+
+
+SHAPENET_CARS = {
+#     0: {'batch_size': 60, 'num_steps': 24, 'img_size': 32, 'batch_split': 1},
+#     int(40e3): {'batch_size': 8, 'num_steps': 24, 'img_size': 64, 'batch_split': 1},
+#     int(80e3): {'batch_size': 12, 'num_steps': 12, 'img_size': 128, 'batch_split': 4},
+#     int(100e3): {},
+    
+    0: {'batch_size': 30, 'num_steps': 48, 'img_size': 32, 'batch_split': 1, 'gen_lr': 4e-5, 'disc_lr': 4e-4},
+    int(10e3): {'batch_size': 14, 'num_steps': 48, 'img_size': 64, 'batch_split': 2, 'gen_lr': 2e-5, 'disc_lr': 2e-4},
+    int(55e3): {'batch_size': 10, 'num_steps': 48, 'img_size': 128, 'batch_split': 5, 'gen_lr': 10e-6, 'disc_lr': 10e-5},
+    int(200e3): {},
+
+    
+#     'fov': 38,
+#     'fov': 14.9,
+    'fov': 52,
+    'ray_start': 0.6,
+    'ray_end': 1.4,
+    'fade_steps': 10000,
+    'sample_dist': 'spherical_uniform',
+    'h_stddev': math.pi,
+    'v_stddev': math.pi/2,
+    'h_mean': math.pi/2,
+    'v_mean': math.pi/2,
+    'topk_interval': 2000,
+    'topk_v': 1,
+    'betas': (0, 0.9),
+    'unique_lr': False,
+    'weight_decay': 0,
+    'r1_lambda': 10,
+    'latent_dim': 256,
+    'grad_clip': 1,
+    'model': 'TALLSIREN',
+    'generator': 'ImplicitGenerator3d',
+    'discriminator': 'ProgressiveEncoderDiscriminator',
+    'dataset': 'Shapenet_Cars_Simple',
+    'white_back': True,
+    'clamp_mode': 'relu',
+    'z_dist': 'gaussian',
+    'hierarchical_sample': True,
+    'z_lambda': 0,
+    'pos_lambda': 0,
+    'learnable_dist': False,
+}
+
+
+
+
+
+FFHQ = {
+    0: {'batch_size': 28 * 2, 'num_steps': 12, 'img_size': 64, 'batch_split': 2, 'gen_lr': 6e-5, 'disc_lr': 2e-4},
+    int(200e3): {},
+
+    'fov': 12,
+    'ray_start': 0.88,
+    'ray_end': 1.12,
+    'fade_steps': 10000,
+    'h_stddev': 0.3,
+    'v_stddev': 0.155,
+    'h_mean': math.pi*0.5,
+    'v_mean': math.pi*0.5,
+    'sample_dist': 'gaussian',
+    'topk_interval': 2000,
+    'topk_v': 0.6,
+    'betas': (0, 0.9),
+    'unique_lr': False,
+    'weight_decay': 0,
+    'r1_lambda': 0.2,
+    'latent_dim': 256,
+    'grad_clip': 10,
+    'model': 'SPATIALSIRENBASELINE',
+    'generator': 'ImplicitGenerator3d',
+    'discriminator': 'CCSEncoderDiscriminator',
+    'dataset': 'FFHQ_Simple',
+    'clamp_mode': 'relu',
+    'z_dist': 'gaussian',
+    'hierarchical_sample': True,
+    'z_lambda': 0,
+    'pos_lambda': 15,
     'last_back': False,
     'eval_last_back': True,
 }
