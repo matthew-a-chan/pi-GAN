@@ -11,6 +11,7 @@ import torch
 import torch.nn.functional as F
 import matplotlib.pyplot as plt
 import random
+import os
 
 from .math_utils_torch import *
 
@@ -139,7 +140,20 @@ def sample_camera_positions(device, n=1, r=1, horizontal_stddev=1, vertical_stdd
     elif mode == 'normal' or mode == 'gaussian':
         theta = torch.randn((n, 1), device=device) * horizontal_stddev + horizontal_mean
         phi = torch.randn((n, 1), device=device) * vertical_stddev + vertical_mean
+        
+        if os.getenv('yaw_clamp', None):
+            lo, hi = (float(x) for x in os.getenv('yaw_clamp').split(':'))
+            while torch.any((theta < lo) | (theta > hi)):
+                x = torch.count_nonzero((theta < lo) | (theta > hi))
+                theta[(theta < lo) | (theta > hi)] = torch.randn(x, device=device) * horizontal_stddev + horizontal_mean
 
+        if os.getenv('pitch_clamp', None):
+            lo, hi = (float(x) for x in os.getenv('pitch_clamp').split(':'))
+            while torch.any((phi < lo) | (phi > hi)):
+                x = torch.count_nonzero((phi < lo) | (phi > hi))
+                phi[(phi < lo) | (phi > hi)] = torch.randn(x, device=device) * vertical_stddev + vertical_mean
+
+                
     elif mode == 'hybrid':
         if random.random() < 0.5:
             theta = (torch.rand((n, 1), device=device) - 0.5) * 2 * horizontal_stddev * 2 + horizontal_mean
