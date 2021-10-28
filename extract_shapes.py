@@ -71,7 +71,7 @@ if __name__ == '__main__':
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
     generator = torch.load(opt.path, map_location=torch.device(device))
-    ema = torch.load(opt.path.split('generator')[0] + 'ema.pth')
+    ema = torch.load(opt.path.split('generator')[0] + 'ema_best.pth')
     ema.copy_to(generator.parameters())
     generator.set_device(device)
     generator.eval()
@@ -83,6 +83,7 @@ if __name__ == '__main__':
 
         voxel_grid = sample_generator(generator, z, cube_length=opt.cube_size, voxel_resolution=opt.voxel_resolution)
 
+        voxel_grid = np.flip(voxel_grid, axis=0)
         os.makedirs(opt.output_dir, exist_ok=True)
         with mrcfile.new_mmap(os.path.join(opt.output_dir, f'{seed}.mrc'), overwrite=True, shape=voxel_grid.shape, mrc_mode=2) as mrc:
             mrc.data[:] = voxel_grid

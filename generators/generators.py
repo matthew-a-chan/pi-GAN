@@ -93,7 +93,7 @@ class ImplicitGenerator3d(nn.Module):
         pixels = pixels.reshape((batch_size, img_size, img_size, 3))
         pixels = pixels.permute(0, 3, 1, 2).contiguous() * 2 - 1
 
-        return pixels, torch.cat([pitch, yaw], -1)
+        return pixels, depth.reshape((batch_size, img_size, img_size, 1)).permute(0, 3, 1, 2).contiguous()
 
 
     def generate_avg_frequencies(self):
