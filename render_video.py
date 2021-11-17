@@ -60,10 +60,10 @@ if opt.trajectory == 'front':
     trajectory = []
     for t in np.linspace(0, 1, curriculum['num_frames']):
         pitch = 0.2 * np.cos(t * 2 * math.pi) + math.pi/2
-        yaw = 0.4 * np.sin(t * 2 * math.pi) + math.pi/2
+        yaw = -0.2 * np.sin(t * 2 * math.pi) + math.pi/2
         fov = 12
 
-        fov = 12 + 5 + np.sin(t * 2 * math.pi) * 5
+        # fov = 12 + 5 + np.sin(t * 2 * math.pi) * 5
 
         trajectory.append((pitch, yaw, fov))
 elif opt.trajectory == 'orbit':
